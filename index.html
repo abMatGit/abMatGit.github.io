@@ -1,1 +1,39 @@
-HELLO WORLD BITCHES
+<html>
+  <head>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <style type="text/css">
+      #mapdiv { height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="mapdiv"></div>
+
+    <script src="geoFeature.json"></script>
+    <script>
+      var mapvar = L.map('mapdiv').setView([47.4444, -100.2500],7);
+
+      var tileLayer = L.tileLayer(
+        'http://{s}.tiles.mapbox.com/v3/examples.map-20v6611k/{z}/{x}/{y}.png', 
+        {
+          attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+    }
+      );
+
+      mapvar.addLayer(tileLayer);
+
+      var geojsonLayer = L.geoJson(
+        geojsonFeature, 
+        {
+          onEachFeature: function(feature, layer) { layer.bindPopup(feature.properties.name); }
+        }
+      );
+
+      mapvar.addLayer(geojsonLayer);
+
+      mapvar.locate({setView: true, maxZoom: 14, minZoom: 6});
+
+    </script>
+
+  </body>
+</html>>
